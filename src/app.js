@@ -2,13 +2,15 @@ const express = require('express')
 const app = express()
 const routes = require('./routes')
 const errorMiddleware = require('./middlewares/error')
-
-const redisClient = require('./redis-client');
-
+const bearerToken = require('express-bearer-token');
 
 const port = process.env.PORT || 3000
+
+
+app.use(bearerToken());
+
 app.use(express.json());
-app.use(routes)
+app.use('/api/v1', routes);
 
 app.use(errorMiddleware)
 
