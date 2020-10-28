@@ -2,11 +2,16 @@ const router = require('express').Router()
 const asyncWrapper = require('../utils/asyncWrapper')
 const authController = require('../controllers/auth.js')
 
+
 // LOGIN //
 router.post('/', asyncWrapper(async (req, res) => {
+
   const { username, password } = req.body
-  if (!username || !password) throw new Error('MISSING USERNAME OR PASSWORD')
-  const token = await authController.login(username, password)
-  res.json({ token})
+
+  if (!username || !password) return res.status(400).json({ message: 'MISSING USERNAME OR PASSWORD', code: 0 })
+
+  const response = await authController.login(username, password)
+
+  res.json(response)
 }))
 module.exports = router
