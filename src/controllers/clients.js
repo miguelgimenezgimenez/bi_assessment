@@ -1,8 +1,8 @@
 const apiService = require("../services/api")
 
-const getClients = async (token) => {
+const getClients = async (token, query) => {
   const endpoint = "api/clients"
-  const clients = await apiService.get(endpoint, token)
+  const clients = await apiService.get(endpoint, token, query)
   return clients
 }
 

@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const querystring = require('querystring');
 const redisClient = require('../redis-client');
 const { API_URL } = require('../config');
 const HTTPError = require('../utils/HTTPError')
@@ -11,10 +12,15 @@ class ApiService {
     this.baseUrl = baseUrl;
   }
 
-  async get(endpoint, token) {
-    const url = `${this.baseUrl}/${endpoint}`
-    const cacheKey = endpoint
-    let storedData = await redisClient.getAsync(cacheKey)
+  async get(endpoint, token, query = {}) {
+    console.log(token)
+    const qs = querystring.encode(query)
+    let url = `${this.baseUrl}/${endpoint}`
+    if (qs.length) {
+      url += `?${qs}`
+    }
+    const cacheKey = `${endpoint}-${qs}`
+    let storedData = await this.memoryClient.getAsync(cacheKey)
 
     if (storedData) {
       storedData = JSON.parse(storedData)
@@ -30,7 +36,8 @@ class ApiService {
     }
 
     // MAKE REQUEST
-    const response = await fetch(url, {
+    // the call method is to avoid changing the context of the method
+    const response = await this.http(url, {
       headers
     })
 
@@ -41,20 +48,43 @@ class ApiService {
     }
 
     if (!response.ok) {
-      let errBody = { statusCode: response.status };
-      if (response.body) {
-        const { message } = await response.json()
-        errBody.message = message;
-      }
-      throw new HTTPError(errBody.statusCode, errBody.message);
+      return this.throwError(response);
     }
 
     const data = await response.json()
     const etag = response.headers.get('Etag')
     if (etag) {
-      redisClient.setAsync(endpoint, JSON.stringify({ data, etag }));
+      this.memoryClient.setAsync(endpoint, JSON.stringify({ data, etag }));
     }
     return data;
+  }
+
+  async post(endpoint, body) {
+    const url = `${this.baseUrl}/${endpoint}`
+
+    const response = await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' },
+    })
+
+    if (!response.ok) {
+      return this.throwError(response);
+    }
+    const data = await response.json()
+
+    return data;
+
+  }
+
+  async throwError(response) {
+    const status = response.status
+    let message = response.statusText
+    if (response.body) {
+      const body = await response.json()
+      message = body.message
+    }
+    throw new HTTPError(status, message);
   }
 }
 
