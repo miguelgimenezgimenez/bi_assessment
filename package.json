@@ -17,7 +17,8 @@
     "express-bearer-token": "^2.4.0",
     "jwt-decode": "^3.0.0",
     "node-fetch": "^2.6.1",
-    "redis": "^3.0.2"
+    "redis": "^3.0.2",
+    "uppercamelcase": "^3.0.0"
   },
   "devDependencies": {
     "eslint": "^7.12.1"
