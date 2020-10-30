@@ -5,9 +5,10 @@ const clientsController = require('../controllers/clients.js')
 
 
 // GET CLIENTS //
-router.get('/', asyncWrapper(async (req, res) => {
-  const {query, token} = req
-  const response = await clientsController.getClients(token,query)
-  res.json(response)
+router.get('/:id?', asyncWrapper(async (req, res) => {
+  const { query, token, params } = req
+  const options = {...query, ...params}
+  const clients = await clientsController.getClients(token,options)
+  res.json(clients)
 }))
 module.exports = router
