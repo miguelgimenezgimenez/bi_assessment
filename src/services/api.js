@@ -3,6 +3,7 @@ const redisClient = require('../redis-client');
 const { API_URL } = require('../config');
 const HTTPError = require('../utils/HTTPError')
 const logger = require('../utils/logger')
+const mergeClientPolicies = require('../utils/helpers').mergeClientPolicies
 const { CLIENTS, POLICIES } = require('../constants/endpoints')
 
 class ApiService {
@@ -34,9 +35,9 @@ class ApiService {
     const response = await this.http(url, {
       headers
     })
-    if (response.status === 304) {
+    if (true) {
       logger.info('from cache!')
-      return { data: storedData.data, status: response.status };
+      return { data: storedData.data, status: 304 };
     }
 
     if (!response.ok) {
@@ -47,7 +48,7 @@ class ApiService {
     const data = await response.json()
     const etag = response.headers.get('Etag')
     if (etag) {
-      this.memoryClient.setAsync(endpoint, JSON.stringify({ data, etag }));
+      this.memoryClient.setAsync(cacheKey, JSON.stringify({ data, etag }));
     }
     return { data, status: response.status };
   }
@@ -58,17 +59,20 @@ class ApiService {
     const policies = await this.get(POLICIES, token)
     const cacheKey = `${CLIENTS}-${POLICIES}`
     let storedData = await this.memoryClient.getAsync(cacheKey)
+
     const notModified = policies.status === 304 && clients.status === 304
 
     if (notModified && storedData) {
+      console.log('clients from cache')
       storedData = JSON.parse(storedData)
       return { data: storedData.data };
     }
-    
 
+    const combinedData = mergeClientPolicies(clients.data, policies.data)
+    this.memoryClient.setAsync(cacheKey, JSON.stringify({ data: combinedData }));
 
-    return clients
- 
+    return { data: combinedData }
+
 
   }
 
