@@ -1,9 +1,9 @@
 const fetch = require('node-fetch');
-const querystring = require('querystring');
 const redisClient = require('../redis-client');
 const { API_URL } = require('../config');
 const HTTPError = require('../utils/HTTPError')
 const logger = require('../utils/logger')
+const { CLIENTS, POLICIES } = require('../constants/endpoints')
 
 class ApiService {
   constructor(memoryClient, http, baseUrl) {
@@ -12,14 +12,9 @@ class ApiService {
     this.baseUrl = baseUrl;
   }
 
-  async get(endpoint, token, query = {}) {
-    console.log(token)
-    const qs = querystring.encode(query)
-    let url = `${this.baseUrl}/${endpoint}`
-    if (qs.length) {
-      url += `?${qs}`
-    }
-    const cacheKey = `${endpoint}-${qs}`
+  async get(endpoint, token) {
+    const url = `${this.baseUrl}/${endpoint}`
+    const cacheKey = endpoint
     let storedData = await this.memoryClient.getAsync(cacheKey)
 
     if (storedData) {
@@ -36,27 +31,45 @@ class ApiService {
     }
 
     // MAKE REQUEST
-    // the call method is to avoid changing the context of the method
     const response = await this.http(url, {
       headers
     })
-
-
     if (response.status === 304) {
-      logger.info('from cache');
-      return storedData.data;
+      logger.info('from cache!')
+      return { data: storedData.data, status: response.status };
     }
 
     if (!response.ok) {
       return this.throwError(response);
     }
 
+
     const data = await response.json()
     const etag = response.headers.get('Etag')
     if (etag) {
       this.memoryClient.setAsync(endpoint, JSON.stringify({ data, etag }));
     }
-    return data;
+    return { data, status: response.status };
+  }
+
+  async getClients(token) {
+
+    const clients = await this.get(CLIENTS, token)
+    const policies = await this.get(POLICIES, token)
+    const cacheKey = `${CLIENTS}-${POLICIES}`
+    let storedData = await this.memoryClient.getAsync(cacheKey)
+    const notModified = policies.status === 304 && clients.status === 304
+
+    if (notModified && storedData) {
+      storedData = JSON.parse(storedData)
+      return { data: storedData.data };
+    }
+    
+
+
+    return clients
+ 
+
   }
 
   async post(endpoint, body) {
@@ -74,7 +87,6 @@ class ApiService {
     const data = await response.json()
 
     return data;
-
   }
 
   async throwError(response) {
