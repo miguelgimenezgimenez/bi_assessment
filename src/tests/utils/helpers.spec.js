@@ -77,7 +77,22 @@ const expectedResult = [
 ]
 
 
-test('adds policies to clients object', () => {
-  const combinedData = mergeClientPolicies(clients, policies)
-  expect(combinedData).toEqual(expectedResult);
+describe('mergeClientPolicies', () => {
+  it('Returns expected result with combined data', () => {
+    const combinedData = mergeClientPolicies(clients, policies)
+    expect(combinedData).toEqual(expectedResult);
+  })
+  it('Adds all existing policies to the clients object', () => {
+    const combinedData = mergeClientPolicies(mockData.clients, mockData.policies)
+    const numberOfPolicies = mockData.policies.length
+    const addedPolicies = combinedData.reduce((acc, next) =>
+      acc + next.policies.length, 0)
+    expect(numberOfPolicies).toBe(addedPolicies);
+  })
+  it('Returns correct number of clients', () => {
+    const combinedData = mergeClientPolicies(mockData.clients, mockData.policies)
+    const numberOfClients = mockData.clients.length
+    const returnedClients = combinedData.length
+    expect(numberOfClients).toBe(returnedClients);
+  })
 });

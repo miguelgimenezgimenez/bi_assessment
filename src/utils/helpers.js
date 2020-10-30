@@ -14,10 +14,10 @@ function sortBy(array, key) {
 function mergeClientPolicies(clients, policies) {
   const sortedClients = sortBy(clients, 'id')
   const sortedPolicies = sortBy(policies, 'clientId')
-
+  console.log(sortedClients)
   let clientIndex = 0
   let policiesIndex = 0
-  const combinedData = []
+  let combinedData = []
   while (clientIndex < sortedClients.length && policiesIndex < sortedPolicies.length) {
     let client = { ...sortedClients[clientIndex], policies: [] }
     while (sortedClients[clientIndex].id !== sortedPolicies[policiesIndex].clientId) {
@@ -33,6 +33,11 @@ function mergeClientPolicies(clients, policies) {
     }
     combinedData.push(client)
     clientIndex++
+
+    if (policiesIndex >= sortedPolicies.length) {
+      const remainingClients = sortedClients.slice(clientIndex).map(client => ({ ...client, policies: [] }))
+      return [...combinedData, ...remainingClients]
+    }
   }
   return combinedData
 }
