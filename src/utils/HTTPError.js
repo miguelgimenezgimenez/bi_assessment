@@ -3,10 +3,9 @@ const { STATUS_CODES } = require('http');
 const uppercamelcase = require('uppercamelcase');
 
 class HTTPError extends Error {
-  constructor(statusCode, message, code = 0) {
-    super(message || STATUS_CODES[statusCode]);
-    this.name = toName(statusCode);
-    this.statusCode = statusCode;
+  constructor(code, message) {
+    super(message || STATUS_CODES[code]);
+    this.name = toName(code);
     this.code = code
   }
 }
