@@ -2,12 +2,9 @@ const logger = require('../utils/logger')
 
 // eslint-disable-next-line no-unused-vars
 module.exports = (error, req, res, next) => {
-  let status = error.statusCode || 500
-  let message = error.message
-  const output = { message }
-  if (typeof error.code !== 'undefined') {
-    output.code = error.code
-  }
+  const code = error.code || 500
+  const message = error.message
+  logger.log(error)
   logger.log(`ERROR: ${message}`)
-  res.status(status).send(output)
+  res.status(code).send({ code, message })
 }
