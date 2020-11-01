@@ -11,8 +11,9 @@ module.exports = {
         'sourceType': 'module'
     },
     'rules': {
-        quotes: ['error', 'single', { 'allowTemplateLiterals': true }]
+        'semi': ['error', 'never'],
+        'quotes': ['error', 'single', { 'allowTemplateLiterals': true }]
     },
     'plugins': ['jest']
 
-};
+}
