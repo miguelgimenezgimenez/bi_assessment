@@ -11,7 +11,8 @@ router.post('/', asyncWrapper(async (req, res) => {
   if (!username || !password) return res.status(400).json({ message: 'MISSING USERNAME OR PASSWORD', code: 0 })
 
   const response = await authController.login(username, password)
+  req.session.user = { username, password, token: response.data.token }
 
-  res.json(response)
+  res.json(response.data)
 }))
 module.exports = router
