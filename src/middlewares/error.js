@@ -5,6 +5,5 @@ module.exports = (error, req, res, next) => {
   const code = error.code || 500
   const message = error.message
   logger.log(error)
-  logger.log(`ERROR: ${message}`)
   res.status(code).send({ code, message })
 }

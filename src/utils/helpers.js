@@ -14,7 +14,6 @@ function sortBy(array, key) {
 function mergeClientPolicies(clients, policies) {
   const sortedClients = sortBy(clients, 'id')
   const sortedPolicies = sortBy(policies, 'clientId')
-  console.log(sortedClients)
   let clientIndex = 0
   let policiesIndex = 0
   let combinedData = []
