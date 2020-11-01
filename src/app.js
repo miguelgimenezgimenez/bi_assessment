@@ -1,8 +1,9 @@
 const express = require('express')
 const app = express()
 const routes = require('./routes')
-const errorMiddleware = require('./middlewares/error')
-const bearerToken = require('express-bearer-token')
+const error = require('./middlewares/error')
+const refreshToken = require('./middlewares/refreshToken')
+
 const session = require('express-session')
 const { promisify } = require('util')
 
@@ -21,12 +22,13 @@ if (app.get('env') === 'production') {
 }
 
 app.use(session(sess))
-app.use(bearerToken())
+
+app.use(refreshToken)
 
 app.use(express.json())
 app.use('/api/v1', routes)
 
-app.use(errorMiddleware)
+app.use(error)
 
 const startServer = async () => {
   await promisify(app.listen).bind(app)(port)
