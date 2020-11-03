@@ -1,6 +1,7 @@
 const apiService = require('../services/apiService')
 const { ADMIN } = require('../constants/roles')
 const HTTPError = require('../utils/HTTPError')
+const { paginate } = require('../utils/helpers')
 
 const getClients = async (user = {}, options) => {
   const { token, clientId, role } = user
@@ -25,7 +26,7 @@ const getClients = async (user = {}, options) => {
     clients = clients.filter(client => client.id === options.id)
   }
 
-  return clients
+  return paginate(clients)
 }
 
 module.exports = {
