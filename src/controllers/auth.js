@@ -6,8 +6,8 @@ const login = async (username, password) => {
   const endpoint = LOGIN
   const response = await apiService.post(endpoint, { client_id: username, client_secret: password })
   const { token, type } = response.data
-  const { iat, exp, role, id } = jwtDecode(token)
-  return { token, type, expires_in: exp - iat, role, id }
+  const { iat, exp, role, clientId } = jwtDecode(token)
+  return { token, type, expires_in: exp - iat, role, clientId }
 }
 
 module.exports = {

@@ -13,7 +13,6 @@ const clients = [
   { 'id': 'e8fd159b-57c4-4d36-9bd7-a59ca13057bb', 'name': 'Manning', 'email': 'manningblankenship@quotezart.com', 'role': 'admin' },
   { 'id': 'a0ece5db-cd14-4f21-812f-966633e7be86', 'name': 'Britney', 'email': 'britneyblankenship@quotezart.com', 'role': 'admin' },
 
-
 ]
 const policies = [
   {
