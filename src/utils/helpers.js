@@ -1,4 +1,8 @@
-
+function paginate(array, page = 0, limit = 10) {
+  const from = Number(page) * limit
+  const to = from + Number(limit) || 10
+  return array.slice(from, to)
+}
 function sortBy(array, key) {
   return [...array].sort((a, b) => {
     if (a[key] > b[key]) {
@@ -42,4 +46,4 @@ function mergeClientPolicies(clients, policies) {
 }
 
 
-module.exports = { mergeClientPolicies, sortBy }
+module.exports = { mergeClientPolicies, paginate, sortBy }
