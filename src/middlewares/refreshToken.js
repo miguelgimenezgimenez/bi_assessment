@@ -1,7 +1,5 @@
 const jwtDecode = require('jwt-decode')
 const authController = require('../controllers/auth.js')
-const logger = require('../utils/logger.js')
-
 
 async function refreshToken(req, res, next) {
   const { user } = req.session

@@ -53,7 +53,6 @@ class ApiService {
   }
 
   async getClients(token) {
-
     const clients = await this.get(CLIENTS, token)
     const policies = await this.get(POLICIES, token)
     const cacheKey = `${CLIENTS}-${POLICIES}`
