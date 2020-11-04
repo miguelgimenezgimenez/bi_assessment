@@ -24,6 +24,26 @@ I believe that maybe I should have put the caching layer on the controllers, but
 I didn't want to create one apiService method for each endpoint, since this tends to make the api service to have too much methdods, but I have created one method that
 calls 2 endpoints, I believe this could be improved, but like I said I dont have that much time ;).
 
+## USAGE
+
+To be able to access the endpoints we should first do a POST request to this endpoint:
+
+http://localhost:3000/api/v1/login
+
+with the following body : 
+```
+{
+  "username": "username",
+  "password": "password"
+}
+```
+
+This will send a set-cookie header wich will identify the user with that session.
+After that we will be able to access all the endpoints specified in the specs at: 
+
+https://dare-nodejs-assessment.herokuapp.com/assessment-swagger/static/index.html
+
+
 ## RUNNING THE APP
 
 ``` docker-compose up```
