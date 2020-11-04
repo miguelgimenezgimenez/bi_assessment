@@ -1,8 +1,7 @@
-# DARE
-
-API REST following the swagger specs found at https://dare-nodejs-assessment.herokuapp.com/assessment-swagger/static/index.html
 
 ## Description
+
+API REST following the swagger specs found at https://dare-nodejs-assessment.herokuapp.com/assessment-swagger/static/index.html
 
 To do this assessment i have created an express app, with a connection to redis , (all embedded in a Docker container).
 The redis db is used to create a cache layer, this cache layer has been added on a service called apiService, this could be improved moving the caching layer to the 
