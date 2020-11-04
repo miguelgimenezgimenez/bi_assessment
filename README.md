@@ -20,7 +20,7 @@ The app is tested using jest, there could be more tests, but I believe there is 
 
 ## IMPORTANT NOTE!:
 
-I have been testing the app by testing the app and using postman, I have just tried to test it using swagger and realized that it wasn't setting the cookie, so I have had to do a hacky hotfix to make it work( this code is in the refresh token file )
+I have been testing the app by testing the app and using postman, I have just tried to test it using swagger and realized that it wasn't setting the cookie, so I have had to do a hacky hotfix to make it work( this code is in the refresh token file ). I said i was gonna send the assessment today, but would like to get that fixed so might add a commit to fix this problem.
 
 
 ## IMPROVEMENTS
