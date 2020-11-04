@@ -1,11 +1,10 @@
 const apiService = require('../services/apiService')
-const { ADMIN } = require('../constants/roles')
+const { ADMIN, USER } = require('../constants/roles')
 const HTTPError = require('../utils/HTTPError')
 const { paginate } = require('../utils/helpers')
 
 const getClients = async (user = {}, options) => {
   const { token, clientId, role } = user
-  // Here i should also check if my role is allowed to access this endpoint
 
   if (!token) throw new HTTPError(401, 'Please login!')
 
@@ -14,7 +13,9 @@ const getClients = async (user = {}, options) => {
 
   // temporary conditional since no user is provided in the real  token
   const isAdmin = role === ADMIN || clientId === 'dare'
-
+  if (!isAdmin && (role !== USER || options.id && options.id !== clientId)) {
+    throw new HTTPError(403, 'Role Doesn\'t have permissions to access this endpoint')
+  }
   if (!isAdmin) {
     return clients.filter(client => client.id === clientId)
   }
@@ -26,7 +27,7 @@ const getClients = async (user = {}, options) => {
     clients = clients.filter(client => client.id === options.id)
   }
 
-  return paginate(clients)
+  return paginate(clients, options.page, options.limit)
 }
 
 module.exports = {
