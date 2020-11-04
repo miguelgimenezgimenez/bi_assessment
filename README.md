@@ -34,7 +34,11 @@ calls 2 endpoints, I believe this could be improved, but like I said I dont have
 
 ## TECH STACK
 
-Express
-Redis
-Docker
-Jest
+**Express**
+
+**Redis**
+
+**Docker**
+
+**Jest**
+
