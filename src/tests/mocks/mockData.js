@@ -5,9 +5,9 @@
 //   "exp": 1603991113,
 //   "role": "admin"
 // } 
-const adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRJZCI6IjEiLCJpYXQiOjE2MDM5OTA1MTMsImV4cCI6MTYwMzk5MTExMywicm9sZSI6ImFkbWluIn0.4s6HsDhGx2OeNgW4WsPnGyi-AxQ-IBw1CkPUV2LHTAk'
+const adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRJZCI6IjMiLCJpYXQiOjE2MDM5OTA1MTMsImV4cCI6MTYwMzk5MTExMywicm9sZSI6ImFkbWluIn0.wTeisaZ783fne7Wxv5fg-jiKUCyqFmvhUYwbJcZtyvc'
 // same but with role:user
-const userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRJZCI6IjEiLCJpYXQiOjE2MDM5OTA1MTMsImV4cCI6MTYwMzk5MTExMywicm9sZSI6InVzZXIifQ.StxfT7gtQxotdaFOAJqiIWwC2CQCbg8iBmVWi9f1iYg'
+const userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRJZCI6IjMiLCJpYXQiOjE2MDM5OTA1MTMsImV4cCI6MTYwMzk5MTExMywicm9sZSI6InVzZXIifQ.aoiG3fBKk44LDCt7AQ0BxYpyxkFGRZNVEKj4EgNT6xQ'
 const clients = [
   { 'id': '1', 'name': 'Barnett', 'email': 'barnettblankenship@quotezart.com', 'role': 'user' },
   { 'id': '2', 'name': 'Manning', 'email': 'manningblankenship@quotezart.com', 'role': 'admin' },
