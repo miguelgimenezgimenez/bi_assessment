@@ -1,8 +1,7 @@
-# DARE
-
-API REST following the swagger specs found at https://dare-nodejs-assessment.herokuapp.com/assessment-swagger/static/index.html
 
 ## Description
+
+API REST following the swagger specs found at https://dare-nodejs-assessment.herokuapp.com/assessment-swagger/static/index.html
 
 To do this assessment i have created an express app, with a connection to redis , (all embedded in a Docker container).
 The redis db is used to create a cache layer, this cache layer has been added on a service called apiService, this could be improved moving the caching layer to the 
@@ -18,7 +17,13 @@ data will be embedded in the token's payload, thus giving the user access certai
 
 The app is tested using jest, there could be more tests, but I believe there is some basic tests.
 
+## IMPORTANT NOTE!:
+
+I have been testing the app by testing the app and using postman, I have just tried to test it using swagger and realized that it wasn't setting the cookie, so I have had to do a hacky hotfix to make it work( this code is in the refresh token file ). I said i was gonna send the assessment today, but would like to get that fixed so might add a commit to fix this problem.
+
+
 ## IMPROVEMENTS
+
 
 I believe that maybe I should have put the caching layer on the controllers, but this would have added more complexity to the app and don't have so much time. 
 I didn't want to create one apiService method for each endpoint, since this tends to make the api service to have too much methdods, but I have created one method that
