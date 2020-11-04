@@ -1,38 +1,37 @@
 const { POLICIES } = require('../constants/endpoints')
 const apiService = require('../services/apiService')
-const { ADMIN } = require('../constants/roles')
+const { ADMIN, USER } = require('../constants/roles')
 const HTTPError = require('../utils/HTTPError')
+const pick = require('lodash.pick')
+const { paginate } = require('../utils/helpers')
 
 const getPolicies = async (user = {}, options) => {
   const { token, clientId, role } = user
+  // Here i should also check if my role is allowed to access this endpoint
+
   if (!token) throw new HTTPError(401, 'Please login!')
+  // temporary client dare conditional since no user is provided in the real token
+  const isAdmin = role === ADMIN || clientId === 'dare'
+  // if user is not admin and role doesnt have permissions or user is trying to access other users policies forbid
+  if (!isAdmin && (role !== USER || options.id && options.id !== clientId)) {
+    throw new HTTPError(403, 'Role Doesn\'t have permissions to access this endpoint')
+  }
 
   const response = await apiService.get(POLICIES, token)
   let policies = response.data
-  // temporary conditional since no user is provided in the real  token
-  const isAdmin = role === ADMIN || clientId === 'dare'
 
-  if (!isAdmin) {
-    return policies.filter(policy => policy.clientId === clientId)
-  }
+  const policyFields = ['id', 'amountInsured', 'email', 'inceptionDate', 'installPayment']
 
-  if (options.id) {
-    policies = policies.filter((policy) => policy.clientId === options.id)
-  }
-
-  return policies.reduce((acc, next) => {
-    const shouldAddNext = !options.id || options.id === next.clientId
-    if (shouldAddNext) {
-      acc.push({
-        'id': next.id,
-        'amountInsured': next.amountInsured,
-        'email': next.email,
-        'inceptionDate': next.inceptionDate,
-        'installmentPayment': next.installmentPayment,
-      })
-      return acc
+  policies = policies.reduce((acc, next) => {
+    // if user is not admin he can only see his own policies
+    const shouldPush = (isAdmin && !options.id) || (isAdmin && options.id === next.clientId) || clientId === next.clientId
+    if (shouldPush) {
+      acc.push(pick(next, policyFields))
     }
+    return acc
   }, [])
+
+  return paginate(policies, options.page, options.limit)
 }
 
 module.exports = {
