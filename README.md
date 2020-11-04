@@ -20,6 +20,11 @@ The app is tested using jest, there could be more tests, but I believe there is 
 
 ## IMPROVEMENTS
 
+## IMPORTANT NOTE!:
+
+I have been testing the app by testing the app and using postman, I have just tried to test it using swagger and realized that it wasn't setting the cookie, so I have had to do a hacky hotfix to make it work( this code is in the refresh token file )
+
+
 I believe that maybe I should have put the caching layer on the controllers, but this would have added more complexity to the app and don't have so much time. 
 I didn't want to create one apiService method for each endpoint, since this tends to make the api service to have too much methdods, but I have created one method that
 calls 2 endpoints, I believe this could be improved, but like I said I dont have that much time ;).
