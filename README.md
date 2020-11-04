@@ -18,11 +18,12 @@ data will be embedded in the token's payload, thus giving the user access certai
 
 The app is tested using jest, there could be more tests, but I believe there is some basic tests.
 
-## IMPROVEMENTS
-
 ## IMPORTANT NOTE!:
 
 I have been testing the app by testing the app and using postman, I have just tried to test it using swagger and realized that it wasn't setting the cookie, so I have had to do a hacky hotfix to make it work( this code is in the refresh token file )
+
+
+## IMPROVEMENTS
 
 
 I believe that maybe I should have put the caching layer on the controllers, but this would have added more complexity to the app and don't have so much time. 
