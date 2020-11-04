@@ -2,6 +2,9 @@ const loggingService = console // this could be a service where we could do moni
 
 
 const logger = () => {
+  if (process.env.NODE_ENV === 'test') {
+    return { log: () => { } }
+  }
   if (process.env.NODE_ENV === 'development') {
     return console
   } else {
