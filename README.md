@@ -11,10 +11,13 @@ The token renewal has been done in a "hacky" way since I wasn't provided with a 
 to the user by a cookie, then after login in that sessionId will have associated with the user credentials (they will always stay in the server, since I will only be sending the 
 session id) And for every request there will be a middleware checking if that session has a user associated, if it does it will check the expiration time of the token,
 and if it's expired it will renew it. This flow is by-passed if the cookie session is not being sent, but Authorization headers are, the reason for this is to allow the api to work with swagger, since Swagger has the withCredentials option set to false by default, so it won't send the required cookie for authentication.
+
 I have also had to find a workaround for the permissions, since the token provided didn't contain any info about the role, so in the tests I have assumed that this 
 data will be embedded in the token's payload, thus giving the user access certain routes. When doing the checks for permissions I will assume that user "dare" is admin.
 
-Since the get clients endpoint required merging the data from 2 endpoints, finding for each client all of it's policies. I have created a helper with logarithmic complexity to merge the data, and have cached this results to improve performance, that is the reason why I have put this logic in the apiService.
+### Note
+
+Since the **GET clients** endpoint required merging the data from 2 endpoints, finding for each client all of it's policies. I have created a helper with logarithmic complexity to merge the data, and have cached this results to improve performance, I have done this logic in the apiService instead of the controllers because the caching layer was there, that's why I believe that maybe I should have put the caching layer somewhere else.
 
 
 The app is tested using jest, there could be more tests, but I believe the basic functionality is tested.
@@ -23,15 +26,8 @@ The app is tested using jest, there could be more tests, but I believe the basic
 
 Since I have done the authentication using a cookie with a sessionId, to allow the renewal of the token, I have had to do a hacky hotfix to make the api work in swagger(this code is in the refresh token file ).
 
-Also i have commited the dotenv file so you can use the project without adding the variables.
+I have commited the dotenv on purpose file so you can use the project without adding the variables.
 
-
-## IMPROVEMENTS
-
-
-I believe that maybe I should have put the caching layer on the controllers, but this would have added more complexity to the app and don't have so much time. 
-I didn't want to create one apiService method for each endpoint, since this tends to make the api service to have too much methdods, but I have created one method that
-calls 2 endpoints, I believe this could be improved, but like I said I dont have that much time ;).
 
 ## USAGE
 
