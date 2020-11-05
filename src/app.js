@@ -25,7 +25,8 @@ if (app.get('env') === 'production') {
 }
 
 const corsOptions = {
-  origin: WHITE_LIST
+  origin: WHITE_LIST,
+  credentials: true
 }
 
 // this is just for swagger to work
