@@ -17,7 +17,7 @@ data will be embedded in the token's payload, thus giving the user access certai
 
 ### Note
 
-Since the **GET clients** endpoint required merging the data from 2 endpoints, finding for each client all of it's policies. I have created a helper with logarithmic complexity to merge the data, and have cached this results to improve performance, I have done this logic in the apiService instead of the controllers because the caching layer was there, that's why I believe that maybe I should have put the caching layer somewhere else.
+Since the **GET clients** endpoint required merging the data from 2 endpoints, finding for each client all of it's policies. To do this I have created a helper with logarithmic complexity to merge the data, and have cached this results to improve performance, I have done this logic in the apiService instead of the controllers because the caching "layer" was there, that's why I believe that maybe I should have put the caching "layer" in the controllers.
 
 
 The app is tested using jest, there could be more tests, but I believe the basic functionality is tested.
