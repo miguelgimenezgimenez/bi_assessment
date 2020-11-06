@@ -26,7 +26,7 @@ The app is tested using jest, there could be more tests, but I believe the basic
 
 Since I have done the authentication using a cookie with a sessionId, to allow the renewal of the token, I have had to do a hacky hotfix to make the api work in swagger(this code is in the refresh token file ).
 
-I have commited the dotenv on purpose file so you can use the project without adding the variables.
+I have commited the dotenv on purpose file so you can use the project without adding the variables. Also I have not created a production environment.
 
 
 ## USAGE
