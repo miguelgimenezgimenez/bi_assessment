@@ -24,7 +24,9 @@ The app is tested using jest, there could be more tests, but I believe the basic
 
 ## IMPORTANT NOTE!:
 
-Since I have done the authentication using a cookie with a sessionId, to allow the renewal of the token, I have had to do a hacky hotfix to make the api work in swagger(this code is in the refresh token file ).
+Since I have done the authentication using a cookie with a sessionId, to allow the renewal of the token, I have had to do a hacky hotfix to make the api work in swagger(this code is in the refresh token file ). 
+
+I haven't created a production environment, or deployed it , but have some experience doing it and can do it if necessary.
 
 I have commited the dotenv on purpose file so you can use the project without adding the variables. Also I have not created a production environment.
 
